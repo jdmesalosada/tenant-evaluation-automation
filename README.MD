@@ -10,7 +10,6 @@ This project is a scalable test automation framework built with **Java**, **Sele
 - **Selenium WebDriver**
 - **Gradle**
 - **JUnit**
-- **Allure** or native reporting (optional)
 ---
 
 ## Getting Started
