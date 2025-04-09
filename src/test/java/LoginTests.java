@@ -1,18 +1,19 @@
 import home.HomePage;
 import login.LoginPage;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import util.environment.EnvironmentDataHandler;
-import util.photographer.TestResultLoggerExtension;
+import util.photographer.Photographer;
 
-@ExtendWith(TestResultLoggerExtension.class)
+import java.io.IOException;
+
 public class LoginTests {
 
     WebDriver driver;
+    Photographer photographer;
 
     @BeforeAll
     public static void getEnvVariables(){
@@ -25,20 +26,22 @@ public class LoginTests {
     public void setup(){
         driver = new ChromeDriver();
         this.driver.get(EnvironmentDataHandler.get().url());
+        this.photographer = new Photographer(driver);
     }
 
     @ParameterizedTest
     @CsvFileSource(resources = "/login-data.csv", numLinesToSkip = 1)
-    public void loginValidationTest(String username, String password, String validationMessage){
+    public void loginValidationTest(String username, String password, String validationMessage) throws IOException {
         LoginPage loginPage = new LoginPage(driver);
         loginPage.loginWithCredentials(username, password);
 
         HomePage homePage = new HomePage(driver);
         homePage.checkValidationLoginMessage(validationMessage);
+        photographer.takePhoto("login");
     }
 
     @Test
-    public void logoutTest(){
+    public void logoutTest() throws IOException {
         String validUsername = EnvironmentDataHandler.get().username();
         String validPassword =  EnvironmentDataHandler.get().password();
         String expectedValidationMessage = String.format("Welcome, %s!", validUsername);
@@ -51,7 +54,7 @@ public class LoginTests {
         homePage.clickOnLogOutButton();
 
         loginPage.checkUserIsLoggedOut();
-
+        photographer.takePhoto("login");
     }
 
     @AfterEach

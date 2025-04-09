@@ -33,7 +33,6 @@ public class Photographer {
         if (!resourcesDir.exists()) {
             resourcesDir.mkdirs();
         }
-
         File destFile = new File(resourcesDir, fileName);
 
         // Copy the screenshot to the destination
