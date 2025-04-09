@@ -1,0 +1,4 @@
+username,password,expected_message
+TestUser,pwd,"Welcome, TestUser!"
+alice,wrongpwd,Invalid username/password
+,,Invalid username/password

@@ -12,8 +12,26 @@ repositories {
 dependencies {
     testImplementation platform('org.junit:junit-bom:5.10.0')
     testImplementation 'org.junit.jupiter:junit-jupiter'
+    // https://mvnrepository.com/artifact/org.aeonbits.owner/owner-java8
+    implementation("org.aeonbits.owner:owner-java8:1.0.12")
+    // https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java
+    implementation("org.seleniumhq.selenium:selenium-java:4.31.0")
 }
 
 test {
     useJUnitPlatform()
+
+    // Pass the 'env' system property from the command line to the test JVM
+    systemProperty "env", System.getProperty("env", "default")
+
+    testLogging {
+        events "passed", "skipped", "failed" //, "standardOut", "standardError"
+
+        showExceptions true
+        exceptionFormat "full"
+        showCauses true
+        showStackTraces true
+
+        showStandardStreams = false
+    }
 }
